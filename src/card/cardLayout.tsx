@@ -5,18 +5,39 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import SwitchButton from './test';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import { BreadcrumbItem } from 'react-bootstrap';
+import FlipCard from './FlipCard';
+
+
+interface ButtonProps {
+  text: string;
+  backgroundColor: string;
+}
 
 function CardApp() {
-  const [contentView, setContentView] = useState<string>('view1'); // State to manage the current content view
 
-  const handleSwitchView = (view: string) => {
-    setContentView(view);
+  const [isReview, setIsReview] = useState(true);
+
+  const handleButtonClick = () => {
+    setIsReview(!isReview);
+  };
+
+  const Button: React.FC<ButtonProps> = ({ text, backgroundColor }) => {
+    return (
+      <button
+        className={`button ${isReview ? 'review' : 'practice'}`}
+        onClick={handleButtonClick}
+        style={{ backgroundColor }}
+      >
+        {text}
+      </button>
+    );
   };
 
   return (
     <>
+
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container>
           <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
@@ -40,41 +61,66 @@ function CardApp() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <Container fluid className="d-flex vh-100">
+
+{/*_________________________________________________________________________________________________ */}
+
+      <Container fluid className="d-flex vh-100 custom-container">
         <Row className="flex-grow-1" >
-          <Col className="bg-primary d-flex align-items-center justify-content-center" xs={9} style={{ height: '100vh' }}>
-            {/* Content Area */}
+            <Col className="bg-white d-flex align-items-center justify-content-center" xs={9} style={{ height: '100vh' }}>
+              {/* Content Area */}
+                <div className="cont"  dir='rtl'>
 
-            <div className="cont"  dir='rtl'>
-      <div className="rectangle-1">
-      <Breadcrumb>
-      <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
-      <Breadcrumb.Item href="https://getbootstrap.com/docs/4.0/components/breadcrumb/">
-        Library
-      </Breadcrumb.Item>
-      <Breadcrumb.Item active>Data</Breadcrumb.Item>
-    </Breadcrumb>
-      </div>
-      <div className="double-rectangle" >
-      <div className="rectangle-22"></div>
-        <div className="rectangle-2"></div>
-        
-      </div>
-      <div className="rectangle-3"></div>
-      <div className="square-container">
-        <div className="square-1"></div>
-        <div className="square-2"></div>
-        <div className="square-3"></div>
-      </div>
-    </div>
+                        <div className="breadcrumb">
+                        <Breadcrumb>
+                          <BreadcrumbItem href="#" active>الصفحة الرئيسية  / </BreadcrumbItem>
+                          <BreadcrumbItem href="#" active> الدروس</BreadcrumbItem>
+                          <BreadcrumbItem href="#" active>المراجعة</BreadcrumbItem>
+                          <BreadcrumbItem href="#" active>الممارسة</BreadcrumbItem>
+                        </Breadcrumb>
+                        </div>
 
-          </Col>
-          <Col className="bg-secondary" xs={3} style={{ height: '100vh' }}>
-            {/* Sidebar */}
-            <Navbar expand="lg" className="flex-column h-100">
-              {/* Sidebar content */}
-            </Navbar>
-          </Col>
+                      {/* ____________________________________ */}
+                        <div className="double-rectangle" >
+                        <div className="rectangle-22"></div>
+                          <div className="rectangle-2"></div>   
+                        </div>
+                      {/* ____________________________________ */}
+                        <div className="rectangle-3">
+                       <Button
+                  text="Review"
+                  backgroundColor="#007bff" // Blue color
+                />
+                <Button
+                  text="Practice"
+                  backgroundColor="white" // White color
+                />
+                        </div>
+                      {/* ____________________________________ */}
+                        <div className="square-container">
+                          <div className="square-1">
+                          <button className="arrow-button left-arrow">→</button>
+                          </div>
+                          <div className="flip-card ">
+                            <FlipCard
+                  frontContent={<div>Front Content</div>}
+                  backContent={<div>Back Content</div>}
+                />
+                          </div>
+                          <div className="square-3">
+                          <button className="arrow-button right-arrow">←</button>
+                          </div>
+                        </div>
+                </div>
+            </Col>
+            
+{/* ______________________________________________________________________________________________________ */}
+
+            <Col className="bg-secondary" xs={3} style={{ height: '100vh' }}>
+              {/* Sidebar */}
+              <Navbar expand="lg" className="flex-column h-100">
+                {/* Sidebar content */}
+              </Navbar>
+            </Col>
         </Row>
       </Container>
     </>
